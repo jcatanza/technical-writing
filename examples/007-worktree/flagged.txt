@@ -1,0 +1,6 @@
+**One thing to check before you start: worktrees.** This session ran in a "worktree", a separate copy of the repository that the app created. If the new session also creates one for the greenhouse repository, that copy would have only the committed files. It would be missing:
+
+- the `analysis/` scripts, which are not committed yet,
+- everything under `data/`: the saved readings for both sensors, the settings and the test logs.
+
+Those are all in the original folder, and the analysis depends on them. So when you open the new session, check which folder it uses. If it is a worktree, switch to the original folder, or copy the missing files into it.

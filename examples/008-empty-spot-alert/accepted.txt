@@ -1,0 +1,7 @@
+That sentence used jargon. Here it is in plain words.
+
+**An "empty-spot alert" means a false alert.** The system raises an alert where there is no real frost. It reads a warm pipe, for example.
+
+**Code -1 is a marker for a false alert.** Every row in my results list needs a "true answer". For a correct alert, the true answer is the zone number, such as 0 for the north bed. A false alert has no true zone, so I wrote -1. It stands for "not any of the zones". No real zone number can equal -1.
+
+**Why the bug happened.** When I score zone 0, I turn the true answers into yes or no for that zone: "is this row a real north-bed frost?" Rows with code 0 should be yes. All other rows, including the -1 rows, should be no. My helper function turned the -1 rows into yes when the data had exactly 2 zones.

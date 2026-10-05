@@ -1,0 +1,23 @@
+{
+  "id": 5,
+  "date": "2026-09-21",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "what do you mean by \"old system\"?",
+  "lesson": "Say the word was mine, give the plain meaning, and offer clearer wording.",
+  "tags": [
+    "coined-label",
+    "undefined-term"
+  ],
+  "signal": "explicit: yes, add it as question 3",
+  "known": [],
+  "coined_flagged": [
+    "old system"
+  ],
+  "coined_accepted": [
+    "old system"
+  ],
+  "expect_flagged": [
+    "coined-label"
+  ],
+  "allowed_accepted": []
+}

@@ -1,0 +1,15 @@
+"Support" means extra evidence that sits beside the decision and does not make it. The decision comes from one measure only: the average score at a limit of 0.5.
+
+The support has two parts.
+
+**Does the second chart agree?**
+
+- The second chart is another score. It averages over the 20 zones.
+- Unlike the average score, it needs no limit. It does not depend on the 0.5 setting.
+- If both charts point at the same values, that adds confidence. If they differ, I say so in the report and keep the choice that the rule made.
+
+**The size split**
+
+- Nights differ. Some nights have one to three events, and some have dozens.
+- A low smoothing level can delete a real event on a busy night.
+- I compute the score for each smoothing level in each size group.

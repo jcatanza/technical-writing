@@ -1,0 +1,23 @@
+{
+  "id": 6,
+  "date": "2026-10-04",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "\"weighted total\" is an undefined term, which makes this statement obscure and difficult to understand. You should have been able to predict that and fix the text to make it understandable instead of waiting for me to find it.",
+  "lesson": "Name each quantity and say what it counts, show it in a small table, then scan for the same gap everywhere.",
+  "tags": [
+    "coined-label",
+    "undefined-term"
+  ],
+  "signal": "implicit: the reader moved on to the next topic",
+  "known": [],
+  "coined_flagged": [
+    "weighted total"
+  ],
+  "coined_accepted": [
+    "draw weight"
+  ],
+  "expect_flagged": [
+    "coined-label"
+  ],
+  "allowed_accepted": []
+}

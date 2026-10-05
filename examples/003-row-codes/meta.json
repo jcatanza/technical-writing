@@ -1,0 +1,22 @@
+{
+  "id": 3,
+  "date": "2026-10-04",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "This is so hard to understand. Why don't you say what you mean and give a simple explanation of how to build row_codes and the other entries in the table.",
+  "lesson": "Show a tiny worked example with real numbers before describing the data structure.",
+  "tags": [
+    "abstract-first",
+    "code-name"
+  ],
+  "signal": "explicit: 'yes that's an excellent fix. when I looked at your worked example i immediately understood'",
+  "known": [],
+  "coined_flagged": [],
+  "coined_accepted": [],
+  "expect_flagged": [
+    "code-name",
+    "passive"
+  ],
+  "allowed_accepted": [
+    "code-name"
+  ]
+}

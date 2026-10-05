@@ -1,0 +1,1 @@
+Ties in distance go to the first zone in the list. In a constructed case (one wide alert at distance exactly 0.5 from two zones, a tight alert on one of them), swapping the order of the two lines in the list turns [hit, false alert, miss] into [hit, hit].

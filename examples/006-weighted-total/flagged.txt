@@ -1,0 +1,1 @@
+Every book stays in the list, and each shelf's copies stay together. The weighted total is 9 here, 8 on average over many redraws.

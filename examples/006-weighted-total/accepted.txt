@@ -1,0 +1,13 @@
+The gap was mine to catch. The example used "weighted total" without saying what gets a weight or what the total counts.
+
+Each book gets a **draw weight**: the number of times a redraw picks its shelf. Take five shelves, A to E, with 8 books in all. Suppose a redraw picks B, B, D, E, A.
+
+| Book | Draw weight |
+|---|---|
+| the 1 book on shelf A | 1 |
+| each of the 2 books on shelf B | 2 |
+| the 1 book on shelf C | 0 |
+| the 1 book on shelf D | 1 |
+| each of the 3 books on shelf E | 1 |
+
+The weights add up to 9, so this redraw counts 9 books with repeats. Over many redraws, the weights add up to 8 on average, the number of books in the list.

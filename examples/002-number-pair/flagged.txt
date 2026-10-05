@@ -1,0 +1,1 @@
+**Readings inside the valid range** (1,722 for sensor A, 1,855 for sensor B): every one has a matching reading from the backup logger within one second.

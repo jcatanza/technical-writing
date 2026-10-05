@@ -1,0 +1,13 @@
+I made that harder than it needs to be. The codes form a plain list of single numbers, one per row.
+
+**A tiny example.** Three zones: 0 = north bed, 1 = middle bed, 2 = south bed. One night has two real frost events, one in the north bed and one in the middle bed.
+
+The system sends two alerts. The first alert is correct for the north bed. The second alert fires on a warm spot and matches nothing. Nobody alerts the middle-bed frost.
+
+The code builds one table with one row per alert, and one more row for each frost event that no alert found:
+
+| Row | What it is | `row_codes` (one number) | Scores in this row (north, middle, south) |
+|---|---|---|---|
+| 1 | alert 1, found the north-bed frost | **0** (north) | 0.9, 0.0, 0.0 |
+| 2 | alert 2, a false alert | **-1** (not any real event) | 0.0, 0.4, 0.0 |
+| 3 | the middle-bed frost, never found | **1** (middle) | 0.0, 0.0, 0.0 |

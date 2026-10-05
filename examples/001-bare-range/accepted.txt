@@ -1,0 +1,1 @@
+Smoothing raises sensor A's accuracy from 0.412 to 0.497 (+0.085). It raises sensor B's accuracy from 0.431 to 0.548 (+0.117).

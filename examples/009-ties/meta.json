@@ -1,0 +1,21 @@
+{
+  "id": 9,
+  "date": "2026-10-03",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "please explain \"Ties in distance go to the first zone in the list. In a constructed case ... turns [hit, false alert, miss] into [hit, hit].\" I don't understand why there are 3 trials in one case and only 2 in the other.",
+  "lesson": "Say what each list entry stands for, then trace the case step by step.",
+  "tags": [
+    "dense-structure",
+    "unlabeled-items"
+  ],
+  "signal": "explicit: Got it thanks for the clear explanation.",
+  "known": [],
+  "coined_flagged": [],
+  "coined_accepted": [],
+  "expect_flagged": [
+    "long-sentence"
+  ],
+  "allowed_accepted": [
+    "code-name"
+  ]
+}

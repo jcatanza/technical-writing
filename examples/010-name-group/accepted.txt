@@ -1,0 +1,9 @@
+You're right. I used labels and terms that were new to you, and the explanation had no clear order. Below is the question in plain English, with your points answered where they come up.
+
+**The question:** about 4,100 photos in the dataset are copies or near-copies of each other. Should the project find those copies by their file names (option A, what we do now) or by how the pictures look (option B)?
+
+## 1. What a "group" is, and what a name group is
+
+A group is a set of photos that we treat as one unit because they are copies of each other. Copies carry less new information than their count suggests, so we should not count them as separate evidence.
+
+The photos came from a photo app that made several altered versions of some originals, such as slightly rotated ones. The app gave every version the same file name up to `.v2.`.

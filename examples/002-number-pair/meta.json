@@ -1,0 +1,20 @@
+{
+  "id": 2,
+  "date": "2026-10-03",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "Please explain \"1,722 for sensor A, 1,855 for sensor B\" <--doesnt make sense",
+  "lesson": "Put counts in a small table whose header says what each column counts, and show that each row adds up.",
+  "tags": [
+    "bare-number",
+    "unlabeled-items"
+  ],
+  "signal": "implicit: asked a follow-up that built on the table",
+  "known": [],
+  "coined_flagged": [],
+  "coined_accepted": [],
+  "expect_flagged": [
+    "long-sentence",
+    "number-pair"
+  ],
+  "allowed_accepted": []
+}

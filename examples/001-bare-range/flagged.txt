@@ -1,0 +1,1 @@
+Smoothing helps a lot: without smoothing, accuracy is 0.412 for sensor A and 0.431 for sensor B. Smoothing adds 0.09 to 0.12

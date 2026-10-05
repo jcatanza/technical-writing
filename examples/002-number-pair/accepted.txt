@@ -1,0 +1,10 @@
+These are counts of readings. The two sensors have different counts because each sensor logged a different number of readings in the same 300 hours.
+
+| | All readings | Inside the valid range | Outside the range |
+|---|---|---|---|
+| Sensor A | 2,041 | 1,722 | 319 |
+| Sensor B | 2,188 | 1,855 | 333 |
+
+Each row adds up: 1,722 + 319 = 2,041, and 1,855 + 333 = 2,188.
+
+A reading is inside the valid range when it lies between 0 and 40 degrees. A sensor logs a reading outside that range when a wire is loose.

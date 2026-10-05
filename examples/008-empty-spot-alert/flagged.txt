@@ -1,0 +1,1 @@
+Found a bug: with exactly 2 zones, empty-spot alerts (code -1) get miscounted as hits for zone 0, which the tests missed since real usage has 20 zones or a 0/1 score setup. I'll fix it now.

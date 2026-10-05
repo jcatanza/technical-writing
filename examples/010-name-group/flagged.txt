@@ -1,0 +1,6 @@
+**The decision:** when the analysis groups photos, should it group by file name (A) or by picture content (B)? The grouping is used in two places, and it is imperfect.
+
+**What the groups are**
+
+- A *name group* is all files sharing the name before `.v2.`. The photo app, the tool that exported the photos, gives altered copies of one picture the same name. The 4,100 files carry 3,700 names.
+- The name turned out not to identify the picture reliably (note 18 in our log): of 600 same-name pairs, 76% show the same picture, and the rest show different pictures.

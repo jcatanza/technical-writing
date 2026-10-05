@@ -1,0 +1,17 @@
+{
+  "id": 11,
+  "date": "2026-09-23",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "This is still too abstract and wastes words with \"throat-clearing\" as well: \"Sam, your metric points straight at something the plan actually asks for: staff need to review the system. That's a real requirement, so you can build toward it directly.\" Improve with something like: \"Sam, your 'time from a missed delivery to its review' metric directly supports the review required by the plan.\"",
+  "lesson": "State the claim directly about the named thing; do not announce it or add an evaluative sentence.",
+  "tags": [
+    "abstract-first",
+    "throat-clearing"
+  ],
+  "signal": "the reader wrote the accepted form themselves",
+  "known": [],
+  "coined_flagged": [],
+  "coined_accepted": [],
+  "expect_flagged": [],
+  "allowed_accepted": []
+}

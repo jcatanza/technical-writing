@@ -1,0 +1,22 @@
+{
+  "id": 10,
+  "date": "2026-10-04",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "your above explanation is lacking-- it's convoluted, disorganized, complex, and obscure in many places. (1) what is \"Decision 6\"? (2) why are you doing 3,700 redraws? (3) what is a \"group\"? (4) Please explain clearly the concepts of \"name group\" and \"image group\" in plain english",
+  "lesson": "Open with the question in plain words, define each term the reader has not seen, and answer the reader's own numbered questions in order.",
+  "tags": [
+    "dense-structure",
+    "undefined-term"
+  ],
+  "signal": "implicit: the reader answered 'I want B'",
+  "known": [],
+  "coined_flagged": [],
+  "coined_accepted": [],
+  "expect_flagged": [
+    "code-name",
+    "long-sentence"
+  ],
+  "allowed_accepted": [
+    "code-name"
+  ]
+}

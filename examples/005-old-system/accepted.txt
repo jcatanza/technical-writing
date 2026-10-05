@@ -1,0 +1,9 @@
+"Old system" means the billing program that the library already uses. That is my word, and "existing" is better.
+
+The project description says the library "uses a program to bill late fees automatically". The question is whether that program ran while the library collected this data, from January to December. If it ran, it could stop some fees early. The file would then show those runs cut short, or not show the stopped attempts at all. The description does not say.
+
+A clearer wording:
+
+> Did the library's existing billing program run while the library collected this data, and did it block any of the fees in the file?
+
+Do you want that version added to the design notes as question 3?

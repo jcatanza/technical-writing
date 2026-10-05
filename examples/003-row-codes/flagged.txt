@@ -1,0 +1,5 @@
+`row_codes` holds integer codes. **What `row_codes` contains.** One entry per alert, in the order the alerts were checked, followed by one entry per missed event:
+
+- **A hit:** the zone number of the event it matched, an integer from 0 to 19 in `zone_scores` and `combined` modes. In `plain` mode a hit is 1.
+- **A false alert:** -1 in the zone modes. In `plain` mode it is 0.
+- **A missed event:** the zone of the event nobody matched, with an all-zero score vector, so that it still counts in that zone's recall.

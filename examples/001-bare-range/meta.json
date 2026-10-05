@@ -1,0 +1,18 @@
+{
+  "id": 1,
+  "date": "2026-10-01",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "\"Smoothing adds 0.09 to 0.12\" <-- this sentence doesnt make sense",
+  "lesson": "Say what changes, from what to what, for which item; never a bare range.",
+  "tags": [
+    "bare-number"
+  ],
+  "signal": "explicit: got it.",
+  "known": [],
+  "coined_flagged": [],
+  "coined_accepted": [],
+  "expect_flagged": [
+    "bare-range"
+  ],
+  "allowed_accepted": []
+}

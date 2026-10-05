@@ -1,0 +1,25 @@
+{
+  "id": 8,
+  "date": "2026-09-28",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "please explain, this is quite unclear: \"Found a bug: with exactly 2 zones, empty-spot alerts (code -1) get miscounted as hits for zone 0...\" i dont understand empty-spot alerts, (code -1), 2 zones vs 20 zones.",
+  "lesson": "Admit the jargon in one line, give each word's everyday meaning, then the concrete case.",
+  "tags": [
+    "coined-label",
+    "undefined-term"
+  ],
+  "signal": "explicit: yes.",
+  "known": [],
+  "coined_flagged": [
+    "empty-spot alert"
+  ],
+  "coined_accepted": [
+    "empty-spot alert"
+  ],
+  "expect_flagged": [
+    "coined-label",
+    "first-sentence",
+    "long-sentence"
+  ],
+  "allowed_accepted": []
+}

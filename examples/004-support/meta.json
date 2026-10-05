@@ -1,0 +1,22 @@
+{
+  "id": 4,
+  "date": "2026-10-05",
+  "source": "adapted from a real correction; subject matter replaced",
+  "complaint": "\"Support: I report whether the second chart agrees, and the size split.\" explain in plain english",
+  "lesson": "Open with the everyday meaning of the word in one sentence, then the two parts of the idea.",
+  "tags": [
+    "undefined-term"
+  ],
+  "signal": "explicit: excellent.",
+  "known": [],
+  "coined_flagged": [
+    "Support"
+  ],
+  "coined_accepted": [
+    "Support"
+  ],
+  "expect_flagged": [
+    "coined-label"
+  ],
+  "allowed_accepted": []
+}

@@ -1,0 +1,7 @@
+I tried to cover too many cases. Here is the plain version.
+
+**What a worktree is.** A git repository normally lives in one folder. A worktree is a second folder with another copy of the same files, on its own branch. The desktop app makes one for each chat, so two chats cannot overwrite each other's edits. This chat's folder, `.claude/worktrees/bright-otter-1a2b3c`, is a worktree.
+
+**Why it matters.** A worktree holds only the files that git tracks. It does not hold your analysis scripts, which git does not track yet. It does not hold the readings and settings in `data/`, which git ignores. A new chat in a fresh worktree would find no data, so the analysis could not run.
+
+**What I suggest: one action.** Open the new chat in the original folder, `~/projects/greenhouse`.
