@@ -124,6 +124,14 @@ def write_example(root, flagged, accepted, *, complaint, lesson, tags, signal, s
     return Example(n, d.name[4:], d, meta, flagged.strip(), accepted.strip(), [a.strip() for a in attempts])
 
 
+VENTING = re.compile(r"!{2,}|\?{2,}|frustrat|annoy|infuriat", re.I)
+
+
+def venting_markers(text: str) -> list[str]:
+    """Signs that a complaint vents feeling instead of saying what was wrong."""
+    return sorted({m.group(0).lower() for m in VENTING.finditer(text)})
+
+
 PRIVATE_PATTERNS = (
     ("an email address", re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")),
     ("a home folder path", re.compile(r"(?:/home/|/Users/|[A-Za-z]:\\Users\\)\w+")),

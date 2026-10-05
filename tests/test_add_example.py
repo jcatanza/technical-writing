@@ -93,6 +93,21 @@ def test_ids_and_duplicates_are_checked_across_banks(tmp_path):
         raise AssertionError("a duplicate across banks was accepted")
 
 
+def test_venting_is_detected_and_a_complaint_that_vents_is_refused(tmp_path):
+    assert ex.venting_markers("This is so hard to understand!!! I am so frustrated.") == ["!!!", "frustrat"]
+    assert ex.venting_markers("What is a group??") == ["??"]
+    assert ex.venting_markers("This sentence does not make sense.") == []
+    out = add(tmp_path, "Flagged text.", "Fixed text.", "--complaint", "So hard to understand!!!")
+    assert out.returncode == 2 and "venting" in out.stderr and not (tmp_path / "examples").exists()
+    kept = add(tmp_path, "Flagged text.", "Fixed text.", "--complaint", "So hard to understand!!!", "--keep-wording")
+    assert kept.returncode == 0
+
+
+def test_no_stored_complaint_vents():
+    for e in ex.load_examples(ex.PUBLIC):
+        assert ex.venting_markers(e.meta["complaint"]) == [], (e.id, e.meta["complaint"][:60])
+
+
 def test_the_privacy_scan_finds_emails_paths_links_and_listed_terms(tmp_path):
     terms = tmp_path / "private-terms.txt"
     terms.write_text("# comment\nsecret project\n")

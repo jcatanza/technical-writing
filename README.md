@@ -17,8 +17,9 @@ The link stays on your machine, and git never tracks it. The script also builds 
 1. The reader flags a passage as hard to follow.
 2. Claude corrects that passage with a concrete case.
 3. The reader accepts the correction, and Claude runs `scripts/add_example.py`.
-4. The script stores the flagged passage as the negative example and the correction as the positive one. It also stores the reader's words, a one-line lesson, failure tags and the sign of acceptance.
-5. The script rebuilds `references/examples-digest.md`. Claude reads that digest before it explains anything, so the new pair shapes the next answer.
+4. The script stores the flagged passage as the negative example and the correction as the positive one.
+5. It also stores what was wrong in the reader's words, a one-line lesson, failure tags and the sign of acceptance. It refuses a complaint that vents.
+6. The script rebuilds `references/examples-digest.md`. Claude reads that digest before it explains anything, so the new pair shapes the next answer.
 
 Four more parts adapt as pairs arrive:
 
