@@ -7,10 +7,19 @@ A Claude Code skill that makes technical explanations easy to follow on the firs
 Claude Code finds skills under `~/.claude/skills/`. The install script links this folder there, so the installed skill tracks the clone:
 
 ```sh
+git clone https://github.com/jcatanza/technical-writing.git
 cd technical-writing && ./install.sh
 ```
 
 The link stays on your machine, and git never tracks it. The script also builds the examples digest. After installation, `/technical-writing` works in any session. Claude loads the skill on its own when it explains technical material or when the reader says something is unclear.
+
+The skill needs Python 3.9 or later and no other package. The tests also need pytest. They pass on Python 3.9, 3.12 and 3.13.
+
+## Make the loop automatic
+
+Claude loads the skill when it explains technical material or when you flag a passage. To make Claude record every accepted correction, add this line to your `CLAUDE.md`, for example `~/.claude/CLAUDE.md`:
+
+> **Record every accepted correction.** When I flag a passage as confusing, use the `technical-writing` skill. Once I accept your correction, add both texts to that skill's examples, as its SKILL.md describes, and tell me in one line.
 
 ## How it learns
 
