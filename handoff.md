@@ -12,4 +12,3 @@ Open items:
 
 - The checker does not separate answers the reader flagged from answers they did not (README, section "The checker"). The faults the reader flags most, undefined words and abstract openings, are not mechanical.
 - The learned-label check matches labels of two or more words only. A one-word label such as "support" would match ordinary prose.
-- The repository has no license file. The owner chooses the license.

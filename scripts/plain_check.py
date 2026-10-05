@@ -26,7 +26,7 @@ from pathlib import Path
 
 DEFAULT_KNOWN = {
     "AI", "DNA", "CEO", "OK", "PDF", "URL", "USA", "UK", "EU", "FAQ", "AM", "PM",
-    "PST", "PDT", "UTC", "ID", "IDs", "TV", "GPS",
+    "PST", "PDT", "UTC", "ID", "IDs", "TV", "GPS", "MIT",
     "NOT", "NOTE", "TODO", "NEVER", "ALL", "ONLY", "DO", "IMPORTANT", "WARNING",    # capitals used for emphasis
 }
 FILLER = re.compile(

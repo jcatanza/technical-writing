@@ -40,5 +40,10 @@ def test_every_path_the_instructions_name_exists():
         assert (ROOT / base.rstrip("/")).exists(), rel
 
 
+def test_the_repository_carries_the_mit_license():
+    text = (ROOT / "LICENSE").read_text(encoding="utf-8")
+    assert text.startswith("MIT License") and "Permission is hereby granted, free of charge" in text
+
+
 def test_the_tag_list_the_instructions_point_to_exists():
     assert "TAGS" in TEXT and ex.TAGS

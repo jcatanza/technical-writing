@@ -81,6 +81,10 @@ The eleven seed pairs adapt real corrections. A reader flagged each passage as c
 
 The seed pairs hold no private material. Pairs that you record go to `examples-local/` and stay on your machine. Check a pair before you pass `--public`.
 
+## License
+
+This project uses the MIT license. See `LICENSE`.
+
 ## Credit
 
 Joseph Catanzarite wrote this project with Claude Sonnet 5.5 (max reasoning effort, thinking enabled) as research partner.
