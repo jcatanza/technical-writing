@@ -93,14 +93,38 @@ def test_ids_and_duplicates_are_checked_across_banks(tmp_path):
         raise AssertionError("a duplicate across banks was accepted")
 
 
-def test_venting_is_detected_and_a_complaint_that_vents_is_refused(tmp_path):
+def test_venting_is_detected():
     assert ex.venting_markers("This is so hard to understand!!! I am so frustrated.") == ["!!!", "frustrat"]
     assert ex.venting_markers("What is a group??") == ["??"]
     assert ex.venting_markers("This sentence does not make sense.") == []
-    out = add(tmp_path, "Flagged text.", "Fixed text.", "--complaint", "So hard to understand!!!")
-    assert out.returncode == 2 and "venting" in out.stderr and not (tmp_path / "examples").exists()
-    kept = add(tmp_path, "Flagged text.", "Fixed text.", "--complaint", "So hard to understand!!!", "--keep-wording")
-    assert kept.returncode == 0
+
+
+def test_cleaning_strips_the_venting_and_keeps_the_core():
+    cleaned, removed = ex.clean_complaint("This is so hard to understand!!! I am so frustrated. Please give a simple example.")
+    assert cleaned == "This is so hard to understand. Please give a simple example."
+    assert removed == ["I am so frustrated."]
+    assert ex.clean_complaint("what is a group??") == ("what is a group?", [])
+    cleaned, removed = ex.clean_complaint("Please explain the table. This is not a game!!!")
+    assert cleaned == "Please explain the table." and removed == ["This is not a game!!!"]
+    assert ex.clean_complaint("Please explain this table!!!") == ("Please explain this table.", [])
+    assert ex.clean_complaint("THIS IS SO HARD TO UNDERSTAND!!! Define the term.") == ("This is so hard to understand. Define the term.", [])
+    assert ex.clean_complaint("It is very unclear!") == ("It is very unclear.", [])
+    cleaned, removed = ex.clean_complaint("It is so frustrating when you do this!!!")
+    assert cleaned == ex.DEFAULT_COMPLAINT and removed
+
+
+def test_a_complaint_that_vents_is_stored_cleaned_and_the_removal_is_reported(tmp_path):
+    out = add(tmp_path, "Flagged text.", "Fixed text.", "--complaint", "So hard to understand!!! I am so annoyed.")
+    assert out.returncode == 0 and "removed from the complaint" in out.stdout
+    meta = json.loads(next((tmp_path / "examples").glob("*/meta.json")).read_text())
+    assert meta["complaint"] == "So hard to understand."
+
+
+def test_keep_wording_stores_the_complaint_as_written(tmp_path):
+    out = add(tmp_path, "Flagged text.", "Fixed text.", "--complaint", "So hard to understand!!!", "--keep-wording")
+    assert out.returncode == 0
+    meta = json.loads(next((tmp_path / "examples").glob("*/meta.json")).read_text())
+    assert meta["complaint"] == "So hard to understand!!!"
 
 
 def test_no_stored_complaint_vents():

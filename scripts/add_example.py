@@ -39,8 +39,8 @@ def main(argv=None) -> int:
     ap.add_argument("--flagged", required=True, help="file holding the flagged excerpt, verbatim ('-' for standard input)")
     ap.add_argument("--accepted", required=True, help="file holding the accepted correction, verbatim")
     ap.add_argument("--attempt", action="append", default=[], help="file holding a first fix that failed (repeatable)")
-    ap.add_argument("--complaint", required=True, help="the part of the reader's words that says what was wrong; leave out venting")
-    ap.add_argument("--keep-wording", action="store_true", help="store a complaint even though it shows signs of venting")
+    ap.add_argument("--complaint", required=True, help="the core of the reader's words: what was unclear and what they asked for; the script strips venting")
+    ap.add_argument("--keep-wording", action="store_true", help="store the complaint as written, without stripping venting")
     ap.add_argument("--lesson", required=True, help="one line: what the correction did differently")
     ap.add_argument("--tags", required=True, help="comma-separated failure types; see TAGS in examples_lib.py")
     ap.add_argument("--signal", required=True, help="how the acceptance showed, such as \"explicit: 'got it'\" or 'implicit: asked a follow-up'")
@@ -61,11 +61,7 @@ def main(argv=None) -> int:
     root = bank_for(args.public, args.root)
     also = [] if args.root else [b for b in ex.BANKS if b != root]
     tags = split(args.tags)
-    vent = ex.venting_markers(args.complaint)
-    if vent and not args.keep_wording:
-        print("not added: the complaint shows signs of venting: " + ", ".join(repr(v) for v in vent), file=sys.stderr)
-        print("  keep only the words that say what was wrong, or pass --keep-wording if the words carry real guidance", file=sys.stderr)
-        return 2
+    complaint, removed = (args.complaint.strip(), []) if args.keep_wording else ex.clean_complaint(args.complaint)
     flagged, accepted = read(args.flagged), read(args.accepted)          # read once: standard input can be read only once
     attempts = [read(a) for a in args.attempt]
     if args.public and not args.allow_matches:
@@ -79,7 +75,7 @@ def main(argv=None) -> int:
     try:
         added = ex.write_example(
             root, flagged, accepted,
-            complaint=args.complaint, lesson=args.lesson, tags=tags, signal=args.signal, source=args.source,
+            complaint=complaint, lesson=args.lesson, tags=tags, signal=args.signal, source=args.source,
             known=split(args.known), coined_flagged=split(args.coined_flagged, ";"),
             coined_accepted=split(args.coined_accepted, ";"), attempts=attempts, slug=args.slug,
             also_check=also)
@@ -90,6 +86,10 @@ def main(argv=None) -> int:
         digest = Path(args.digest) if args.digest else (Path(args.root).parent / "examples-digest.md" if args.root else ex.DIGEST)
         ex.write_digest(root if args.root else None, digest)
     print(f"added {added.id:03d}-{added.slug}")
+    if removed:
+        print("  removed from the complaint as venting: " + "; ".join(repr(r) for r in removed))
+    if complaint != args.complaint.strip():
+        print(f"  complaint stored as: {complaint!r}")
     print(f"  checker on the flagged excerpt: {added.meta['expect_flagged'] or 'no flags'}")
     print(f"  checker on the accepted correction: {added.meta['allowed_accepted'] or 'no flags'}")
     for t in tags:

@@ -37,12 +37,12 @@ The reader may call something unclear, confusing, obtuse or jargon, or ask "what
    ```
    python3 ~/.claude/skills/technical-writing/scripts/add_example.py \
      --flagged flagged.txt --accepted accepted.txt \
-     --complaint "<the part of the reader's words that says what was wrong>" --lesson "<one line: what the correction did differently>" \
+     --complaint "<the core of the reader's words>" --lesson "<one line: what the correction did differently>" \
      --tags <tag,tag> --signal "<explicit: their words, or implicit: what they did>" \
      [--attempt first_fix.txt] [--known SNR,dBFS] [--coined-flagged "label one;label two"] [--source "<project, date>"]
    ```
 
-   Keep only the words that say what was wrong, and leave out venting, jokes and anger. The script refuses a complaint with signs of venting, such as repeated exclamation marks. Rewrite the complaint, or pass `--keep-wording` if the words carry real guidance. The pair goes to `examples-local/`, which git ignores, so the reader's real excerpts stay on this machine. Add `--public` only after the reader confirms that the pair holds no course, client or personal material. The script then refuses a pair that holds an email address, a home folder path, a link or a term from `private-terms.txt`. Pick every tag from `TAGS` in `scripts/examples_lib.py` that applies. Then run `python3 -m pytest -q` from the skill folder (it needs pytest; `pip install -r requirements-dev.txt`).
+   Write the core of the complaint: what was unclear and what the reader asked for. Leave out venting, jokes and anger. The script also strips obvious venting, such as feeling words and emphatic sentences that say nothing about the passage, and shows what it removed. Pass `--keep-wording` to store the words as written. The pair goes to `examples-local/`, which git ignores, so the reader's real excerpts stay on this machine. Add `--public` only after the reader confirms that the pair holds no course, client or personal material. The script then refuses a pair that holds an email address, a home folder path, a link or a term from `private-terms.txt`. Pick every tag from `TAGS` in `scripts/examples_lib.py` that applies. Then run `python3 -m pytest -q` from the skill folder (it needs pytest; `pip install -r requirements-dev.txt`).
 5. **Tell the reader in one line** that the pair was added, with its number and tags. Do not commit; the reader decides when. If the tests fail because the checker now flags a correction the reader accepted, say so and ask before changing the checker.
 6. **Propose a rule, never add one silently,** when a tag has no matching procedure step or one tag has recurred three or more times. Say so in one sentence and offer a one-line rule.
 

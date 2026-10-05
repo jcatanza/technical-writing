@@ -124,12 +124,36 @@ def write_example(root, flagged, accepted, *, complaint, lesson, tags, signal, s
     return Example(n, d.name[4:], d, meta, flagged.strip(), accepted.strip(), [a.strip() for a in attempts])
 
 
-VENTING = re.compile(r"!{2,}|\?{2,}|frustrat|annoy|infuriat", re.I)
+FEELING = r"frustrat|annoy|infuriat|furious|\bangry\b|outrag|ridiculous|stupid|\bidiot|\bhate\b|fed up|sick of|\bugh\b"
+VENTING = re.compile(rf"!{{2,}}|\?{{2,}}|{FEELING}", re.I)
+EMPHATIC = re.compile(r"!{2,}\s*$")
+CONTENT = re.compile(r"understand|unclear|confus|obscure|obtuse|abstract|vague|defin|\bmean|explain|jargon|\bterm|follow|sense|"
+                     r"\bwhat\b|\bwhy\b|\bhow\b|example|simple|plain|clear|wrong|missing", re.I)
+DEFAULT_COMPLAINT = "The reader flagged this passage as hard to follow."
 
 
 def venting_markers(text: str) -> list[str]:
     """Signs that a complaint vents feeling instead of saying what was wrong."""
     return sorted({m.group(0).lower() for m in VENTING.finditer(text)})
+
+
+def clean_complaint(text: str) -> tuple[str, list[str]]:
+    """Strip venting from a complaint and keep its core. Dropped: sentences that voice feeling, and emphatic
+    sentences (ending in !!) that say nothing about the passage. Runs of ! or ? shrink to a full stop or one
+    question mark, and shouting in capitals becomes a normal sentence. Returns the cleaned text and the dropped sentences."""
+    kept, dropped = [], []
+    for sentence in re.split(r"(?<=[.!?])\s+", text.strip()):
+        if not sentence.strip():
+            continue
+        if re.search(FEELING, sentence, re.I) or (EMPHATIC.search(sentence) and not CONTENT.search(sentence)):
+            dropped.append(sentence.strip())
+            continue
+        s = re.sub(r"[?!]{2,}", lambda m: "?" if "?" in m.group(0) else ".", sentence)
+        letters = [c for c in s if c.isalpha()]
+        if len(letters) >= 8 and sum(c.isupper() for c in letters) / len(letters) > 0.7:
+            s = s.capitalize()                                  # shouting becomes a normal sentence
+        kept.append(re.sub(r"!", ".", s).strip())
+    return (" ".join(kept).strip() or DEFAULT_COMPLAINT), dropped
 
 
 PRIVATE_PATTERNS = (
