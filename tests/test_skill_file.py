@@ -40,6 +40,15 @@ def test_every_path_the_instructions_name_exists():
         assert (ROOT / base.rstrip("/")).exists(), rel
 
 
+def test_the_workflow_tests_the_python_versions_the_readme_names():
+    workflow = (ROOT / ".github" / "workflows" / "tests.yml").read_text(encoding="utf-8")
+    readme = (ROOT / "README.md").read_text(encoding="utf-8")
+    versions = re.findall(r'"(3\.\d+)"', workflow)
+    assert versions and all(v in readme for v in versions)
+    assert "requirements-dev.txt" in workflow and "pytest" in workflow
+    assert "contents: read" in workflow                      # the least permission the job needs
+
+
 def test_the_repository_carries_the_mit_license():
     text = (ROOT / "LICENSE").read_text(encoding="utf-8")
     assert text.startswith("MIT License") and "Permission is hereby granted, free of charge" in text

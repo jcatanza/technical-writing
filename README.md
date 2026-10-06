@@ -1,5 +1,7 @@
 # technical-writing
 
+[![tests](https://github.com/jcatanza/technical-writing/actions/workflows/tests.yml/badge.svg)](https://github.com/jcatanza/technical-writing/actions/workflows/tests.yml)
+
 A Claude Code skill that makes technical explanations easy to follow on the first read. It follows the writing rules of ASD-STE100 (Simplified Technical English) but does not restrict the vocabulary. It also learns. When the reader flags a passage as confusing and accepts the correction, the skill stores both as a pair of examples. It reads those pairs before the next explanation.
 
 ## Install
@@ -71,6 +73,8 @@ Most flags came from the ASD-STE100 limits. Sentences over 25 words appeared in 
 pip install -r requirements-dev.txt
 python3 -m pytest -q
 ```
+
+GitHub runs the same tests on every push, on Python 3.9, 3.12 and 3.13. The workflow is `.github/workflows/tests.yml`.
 
 `tests/test_checks.py` covers each check. `tests/test_examples.py` replays every stored pair. `tests/test_add_example.py` covers the learning script. `tests/test_skill_file.py` covers `SKILL.md`.
 
