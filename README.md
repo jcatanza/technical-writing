@@ -1,5 +1,7 @@
 # technical-writing
 
+![An AI teacher at a blackboard explains in simple language to a lecture hall of students who take notes.](docs/banner/banner.png)
+
 [![tests](https://github.com/jcatanza/technical-writing/actions/workflows/tests.yml/badge.svg)](https://github.com/jcatanza/technical-writing/actions/workflows/tests.yml)
 
 A Claude Code skill that makes technical explanations easy to follow on the first read. It follows the writing rules of ASD-STE100 (Simplified Technical English) but does not restrict the vocabulary. It also learns. When the reader flags a passage as confusing and accepts the correction, the skill stores both as a pair of examples. It reads those pairs before the next explanation.
@@ -76,7 +78,7 @@ python3 -m pytest -q
 
 GitHub runs the same tests on every push, on Python 3.9, 3.12 and 3.13. The workflow is `.github/workflows/tests.yml`.
 
-`tests/test_checks.py` covers each check. `tests/test_examples.py` replays every stored pair. `tests/test_add_example.py` covers the learning script. `tests/test_skill_file.py` covers `SKILL.md`.
+`tests/test_checks.py` covers each check. `tests/test_examples.py` replays every stored pair. `tests/test_add_example.py` covers the learning script. `tests/test_skill_file.py` covers `SKILL.md`. `tests/test_banner.py` covers the banner.
 
 ## Layout
 
@@ -85,7 +87,19 @@ GitHub runs the same tests on every push, on Python 3.9, 3.12 and 3.13. The work
 - `examples-local/` holds the reader's own pairs and never enters git.
 - `references/` holds the ASD-STE100 summary and the generated digest.
 - `scripts/` holds the checker, the learning script and the digest builder.
+- `docs/banner/` holds the banner picture, the scripts that draw it and the two fonts it embeds.
 - `install.sh`, `handoff.md` and `tests/` complete the project.
+
+## The banner
+
+`docs/banner/make_banner.py` draws the picture at the top of this page as a Scalable Vector Graphics (SVG) file. `docs/banner/render_png.py` then renders that file to `banner.png` in a browser that runs without a window. It needs Chrome or Chromium on your PATH.
+
+```sh
+python3 docs/banner/make_banner.py
+python3 docs/banner/render_png.py
+```
+
+The same code always draws the same picture. `tests/test_banner.py` fails when the drawing changes and `banner.png` does not. The chart on the blackboard is an illustration. Its "GROK index" and its two bar values have no source, and the skill computes no such measure.
 
 ## Origin
 
@@ -97,7 +111,7 @@ The seed pairs hold no private material. Pairs that you record go to `examples-l
 
 ## License
 
-This project uses the MIT license. See `LICENSE`.
+This project uses the MIT license. See `LICENSE`. The two fonts in `docs/banner/fonts/` are under their own license, the SIL Open Font License 1.1. Each font comes with a copy of that license.
 
 ## Credit
 
