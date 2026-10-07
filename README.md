@@ -23,14 +23,14 @@ The skill needs Python 3.9 or later and no other package. The tests also need py
 
 Claude loads the skill when it explains technical material or when you flag a passage. To make Claude record every accepted correction, add this line to your `CLAUDE.md`, for example `~/.claude/CLAUDE.md`:
 
-> **Record every accepted correction.** When I flag a passage as confusing, use the `technical-writing` skill. Once I accept your correction, add both texts to that skill's examples, as its SKILL.md describes, and tell me in one line.
+> **Flag, accept, rewrite, drop.** I flag a passage with `explain "xxx"`. Use the `technical-writing` skill: answer with an explanation and replacement wording, and number the passages when I flag several. I write `accept N` to close a passage, `rewrite N: <instructions>` to ask for a revision and `drop N` to abandon it. These four words are commands at the start of a message or line, or in a comma-separated list that opens the message, such as `accept 1, accept 2`. Keep every failed version and my instructions. Record a pair only after `accept`, with my last version as the positive example, and tell me in one line. Change the document only when I say go. Until every passage closes, end each reply with a one-line reminder.
 
 ## How it learns
 
-1. The reader flags a passage as hard to follow.
-2. Claude corrects that passage with a concrete case.
-3. The reader accepts the correction, and Claude runs `scripts/add_example.py`.
-4. The script stores the flagged passage as the negative example and the correction as the positive one.
+1. The reader flags a passage with `explain "xxx"`.
+2. Claude answers with an explanation and replacement wording, using a concrete case.
+3. The reader writes `accept`, or `rewrite` with instructions, and Claude revises until the reader writes `accept`. Then Claude runs `scripts/add_example.py`.
+4. The script stores the flagged passage as the negative example and the last version before `accept` as the positive one. Each failed version and the reader's instructions for it are kept with the pair.
 5. It also stores what was wrong in the reader's words, a one-line lesson, failure tags and the sign of acceptance. It strips venting from the complaint and keeps the core.
 6. The script rebuilds `references/examples-digest.md`. Claude reads that digest before it explains anything, so the new pair shapes the next answer.
 

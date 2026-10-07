@@ -43,7 +43,7 @@ def main(argv=None) -> int:
     ap.add_argument("--keep-wording", action="store_true", help="store the complaint as written, without stripping venting")
     ap.add_argument("--lesson", required=True, help="one line: what the correction did differently")
     ap.add_argument("--tags", required=True, help="comma-separated failure types; see TAGS in examples_lib.py")
-    ap.add_argument("--signal", required=True, help="how the acceptance showed, such as \"explicit: 'got it'\" or 'implicit: asked a follow-up'")
+    ap.add_argument("--signal", required=True, help="how the acceptance showed, such as \"explicit: accept 2\"")
     ap.add_argument("--source", default="", help="where it happened, such as a project and date")
     ap.add_argument("--known", default="", help="comma-separated abbreviations the reader already knew")
     ap.add_argument("--coined-flagged", default="", help="semicolon-separated labels coined in the flagged text")
