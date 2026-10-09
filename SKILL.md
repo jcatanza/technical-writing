@@ -14,16 +14,22 @@ The rules come from the reader's own corrections. Those are stored as pairs and 
 Read `references/examples-digest.md`. If the file is missing, run `python3 ~/.claude/skills/technical-writing/scripts/build_digest.py` first.
 Its first section ranks the ways earlier answers failed this reader. Check your draft against the top three.
 
+## Two rules that come before the steps
+
+- **Draft every answer from scratch.** Start from the facts and the reader's exact words, as you do after "I did not follow this". Do not patch, extend or defend your previous answer. A patched answer carries its old labels forward and adds new ones, and each new label sends the reader down another rabbit hole.
+- **Use the reader's own words.** To explain a phrase, use the terms already in the reader's text or in the document. Do not add a synonym or a new label for a step (for example "gate", "shortlist" or "slow check" for "the main test"). If a term truly needs a replacement, give one replacement, say it is yours, and use it everywhere.
+
 ## The procedure
 
 1. **Answer first.** Make the first sentence the answer, in plain words. If the reader asked what a word means, the first sentence is its everyday meaning.
 2. **Give a tiny example before the names.** Use one small case with real numbers and say what each number counts. Use a table only for three or more items, and give each column a header that says what it counts.
 3. **Define every non-everyday word where it first appears.** Do not use abbreviations, file or function names, line numbers or labels you coined in this conversation, unless the reader asked about code. If a word is yours, say so and use the everyday word. When a term has a standard definition, give it after the example of step 2, by its standard parts and their numbers. Show a simpler restatement of the term, such as an invented noun, only after that. Do not define a term with another one the reader has not met.
+   **Restate your own words in every answer.** A word of yours is any word you coined or came to lean on in this work, such as "link", "polish", "watcher", "pipeline" or "rebuild". Define it in one clause where it first appears in each new answer, even if an earlier answer defined it. The reader may have lost the earlier definition, and an undefined term is the fault that readers flag most.
 4. **Say what every number counts and what it is compared with.** Write "raises sensor A's accuracy from 0.412 to 0.497", never "adds 0.09 to 0.12".
 5. **Recommend one action.** Leave out the cases that do not apply.
 6. **Write to the ASD-STE100 rules, but do not restrict the vocabulary.** ASD-STE100 is Simplified Technical English. Take its writing rules: 25 words at most in a sentence and 20 in a numbered step, one topic per sentence and one instruction per step, six sentences at most in a paragraph, the active voice, simple tenses, noun clusters of three words at most, and no dropped articles or subjects. Do not take its word list. Use any word the reader needs, and define it where it first appears (step 3). Treat the limits as ceilings and not as targets: vary the sentence length below them, mixing sentences of 4 to 10 words with sentences of 15 to 25, so that the text does not read as monotone. `references/ste-rules.md` has the details.
 7. **Keep it short.** Answer only what was asked. If the question could mean two things, ask which one. Prefer numbered steps when the reader must act.
-8. **Check before sending.** Reread the draft as someone who has not seen this conversation. For a document, or when the reader has already flagged this topic, also run `python3 ~/.claude/skills/technical-writing/scripts/plain_check.py draft.md --known <abbreviations the reader knows>` and fix what it flags. Treat its flags as hints, because it cannot tell whether a text is clear (see Limits).
+8. **Check before sending.** Reread the draft as someone who has not seen this conversation. Then scan it sentence by sentence for words of yours (step 3) and check that each one is defined where it first appears in this answer. Then scan it for any term that the reader's text does not use, and replace it with the reader's own term. For a document, or when the reader has already flagged this topic, also run `python3 ~/.claude/skills/technical-writing/scripts/plain_check.py draft.md --known <abbreviations the reader knows>` and fix what it flags. Treat its flags as hints, because it cannot tell whether a text is clear (see Limits).
 
 ## When the reader flags a passage
 
