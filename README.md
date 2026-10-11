@@ -76,6 +76,14 @@ pip install -r requirements-dev.txt
 python3 -m pytest -q
 ```
 
+Some systems, such as Debian and Ubuntu, block `pip install` into the system Python (PEP 668). On those, install pytest into a virtual environment and run the tests with its Python. Debian and Ubuntu may first need `sudo apt install python3-venv`.
+
+```sh
+python3 -m venv ~/.venvs/technical-writing-tests
+~/.venvs/technical-writing-tests/bin/pip install -r requirements-dev.txt
+~/.venvs/technical-writing-tests/bin/python -m pytest -q
+```
+
 GitHub runs the same tests on every push, on Python 3.9, 3.12 and 3.13. The workflow is `.github/workflows/tests.yml`.
 
 `tests/test_checks.py` covers each check. `tests/test_examples.py` replays every stored pair. `tests/test_add_example.py` covers the learning script. `tests/test_skill_file.py` covers `SKILL.md`. `tests/test_banner.py` covers the banner.

@@ -5,7 +5,7 @@ State on 2026-10-05: the skill is complete, installed by symlink, and its tests 
 To resume:
 
 1. Run `./install.sh` if `~/.claude/skills/technical-writing` is missing.
-2. Run `python3 -m pytest -q`.
+2. Run `python3 -m pytest -q`. If the system Python blocks `pip install` (PEP 668), run `~/.venvs/technical-writing-tests/bin/python -m pytest -q` instead. The README, section "Tests", shows how to create that environment.
 3. New pairs arrive through `scripts/add_example.py` and land in `examples-local/`. Git ignores them, so they never need a commit.
 
 Open items:
