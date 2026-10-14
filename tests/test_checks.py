@@ -123,12 +123,54 @@ def test_long_answers_get_a_note():
 def test_command_line(tmp_path):
     bad = tmp_path / "bad.md"
     bad.write_text("SNR adds 0.09 to 0.12.\n")
-    out = subprocess.run([sys.executable, str(SCRIPT), str(bad), "--no-learned"], capture_output=True, text=True)
+    out = subprocess.run([sys.executable, str(SCRIPT), str(bad), "--no-learned", "--no-labels"], capture_output=True, text=True)
     assert out.returncode == 0 and "bare-range" in out.stdout and "abbreviation" in out.stdout
     good = tmp_path / "good.md"
     good.write_text("The filter removes duplicate readings.\n")
-    out = subprocess.run([sys.executable, str(SCRIPT), str(good), "--no-learned"], capture_output=True, text=True)
+    out = subprocess.run([sys.executable, str(SCRIPT), str(good), "--no-learned", "--no-labels"], capture_output=True, text=True)
     assert out.stdout.startswith("CLEAN")
-    js = subprocess.run([sys.executable, str(SCRIPT), "-", "--json", "--no-learned"], input="SNR drops at night.\n",
+    js = subprocess.run([sys.executable, str(SCRIPT), "-", "--json", "--no-learned", "--no-labels"], input="SNR drops at night.\n",
                         capture_output=True, text=True)
     assert json.loads(js.stdout)["flags"][0]["check"] == "abbreviation"
+
+
+def test_a_retired_label_is_flagged_with_the_agreed_term():
+    retired = [("the search", "deep keypoint matching")]
+    flags, _ = pc.run("The search flags the copy.", retired=retired)
+    hit = [f for f in flags if f.check == "retired-label"]
+    assert len(hit) == 1 and "deep keypoint matching" in hit[0].advice
+    assert "retired-label" not in checks("Deep keypoint matching flags the copy.", retired=retired)
+    assert "retired-label" not in checks("The leverage is high.", retired=[("lever", "the change itself")])     # whole words only
+
+
+def test_retired_labels_are_not_flagged_in_code_fences_or_on_the_line_that_quotes_a_flagged_passage():
+    retired = [("the search", "deep keypoint matching")]
+    assert "retired-label" not in checks('**[3] "the search"**\n\nDeep keypoint matching flags the copy.', retired=retired)
+    assert "retired-label" not in checks("Answer here.\n\n```\nthe search\n```\n", retired=retired)
+    assert "retired-label" in checks("Answer here.\n\nThe search runs.", retired=retired)
+
+
+def test_the_standing_label_file_holds_retired_labels_and_labels_to_define(tmp_path):
+    path = tmp_path / "labels.txt"
+    path.write_text("# comment\nthe search => deep keypoint matching\n\npilot\n", encoding="utf-8")
+    assert pc.load_labels(path) == ([("the search", "deep keypoint matching")], ["pilot"])
+    assert pc.load_labels(tmp_path / "missing.txt") == ([], [])
+
+
+def test_the_command_line_reads_the_standing_label_file(tmp_path):
+    labels = tmp_path / "labels.txt"
+    labels.write_text("the search => deep keypoint matching\npilot\n", encoding="utf-8")
+    draft = tmp_path / "draft.md"
+    draft.write_text("The search flags the copy. The pilot ran.\n", encoding="utf-8")
+    out = subprocess.run([sys.executable, str(SCRIPT), str(draft), "--labels", str(labels), "--no-learned"], capture_output=True, text=True).stdout
+    assert "retired-label" in out and "coined-label" in out
+    out = subprocess.run([sys.executable, str(SCRIPT), str(draft), "--no-labels", "--no-learned"], capture_output=True, text=True).stdout
+    assert "retired-label" not in out
+
+
+def test_a_missing_standing_label_file_named_on_the_command_line_is_an_error(tmp_path):
+    draft = tmp_path / "draft.md"
+    draft.write_text("The search flags the copy.\n", encoding="utf-8")
+    out = subprocess.run([sys.executable, str(SCRIPT), str(draft), "--labels", str(tmp_path / "typo.txt"), "--no-learned"],
+                         capture_output=True, text=True)
+    assert out.returncode != 0 and "typo.txt" in out.stderr

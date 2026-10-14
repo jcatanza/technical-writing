@@ -12,7 +12,11 @@ vocabulary: ASD-STE100's word list is not part of this skill.
 It cannot see whether the explanation is understandable. A clean report is the floor,
 not the goal; SKILL.md holds the judgment part.
 
-Usage:  plain_check.py draft.md [--known SNR,dBFS] [--coined "old system"] [--allow-code]
+It also reads the reader's standing label list (labels-local.txt next to scripts/, not committed):
+a line "label => agreed term" retires a label that the reader rejected, and every use of it is
+flagged; a line "label" alone must be defined where it first appears.
+
+Usage:  plain_check.py draft.md [--known SNR,dBFS] [--coined "old system"] [--allow-code] [--labels FILE]
         cat draft.md | plain_check.py -
 """
 from __future__ import annotations
@@ -250,8 +254,51 @@ def check_coined(text: str, labels: list[str]) -> list[Flag]:
     return flags
 
 
+LABELS_FILE = Path(__file__).resolve().parent.parent / "labels-local.txt"
+PASSAGE_HEADER = re.compile(r"^\s*\*\*\[\d+\]")          # the line that quotes the passage that the reader flagged
+
+
+def load_labels(path=None) -> tuple[list[tuple[str, str]], list[str]]:
+    """The reader's standing label list: ([(retired label, agreed term)], [labels to define at first use]).
+
+    A line "label => agreed term" retires a label. A line "label" alone must be defined where it first appears. Blank lines and lines
+    that start with # are ignored, and a missing file gives two empty lists."""
+    path = Path(path) if path else LABELS_FILE
+    if not path.exists():
+        return [], []
+    retired, define = [], []
+    for raw in path.read_text(encoding="utf-8").splitlines():
+        line = raw.strip()
+        if not line or line.startswith("#"):
+            continue
+        if "=>" in line:
+            label, advice = (part.strip() for part in line.split("=>", 1))
+            retired.append((label, advice))
+        else:
+            define.append(line)
+    return retired, define
+
+
+def check_retired(text: str, retired, per_label: int = 3) -> list[Flag]:
+    """Flag the uses of each retired label (whole words, outside code fences and outside the line that quotes a flagged passage), at most `per_label` for each."""
+    flags, fenced, seen = [], False, {}
+    for number, line in enumerate(text.split("\n"), start=1):
+        if line.strip().startswith("```"):
+            fenced = not fenced
+            continue
+        if fenced or PASSAGE_HEADER.match(line):
+            continue
+        for label, advice in retired:
+            if seen.get(label, 0) >= per_label:
+                continue
+            if re.search(r"(?<!\w)" + re.escape(label) + r"(?!\w)", line, re.I):
+                seen[label] = seen.get(label, 0) + 1
+                flags.append(Flag("retired-label", number, label, f"the reader rejected this label; use: {advice}"))
+    return flags
+
+
 def run(text: str, known=(), coined=(), allow_code=False, max_first=30, max_sentence=25, max_paragraph=90, max_words=250,
-        max_step=20, max_para_sentences=6):
+        max_step=20, max_para_sentences=6, retired=()):
     known_all = DEFAULT_KNOWN | set(known)
     flags = []
     flags += check_first_sentence(text, max_first)
@@ -264,6 +311,8 @@ def run(text: str, known=(), coined=(), allow_code=False, max_first=30, max_sent
     flags += check_branches(text)
     if coined:
         flags += check_coined(text, list(coined))
+    if retired:
+        flags += check_retired(text, list(retired))
     words = len(to_prose(strip_fences(text)).split())
     if words > max_words:
         flags.append(Flag("long-answer", 1, f"{words} words", f"over {max_words} words; answer only what was asked"))
@@ -278,6 +327,8 @@ def main(argv=None) -> int:
     ap.add_argument("--coined", default="", help="semicolon-separated labels coined in the chat")
     ap.add_argument("--allow-code", action="store_true", help="the reader asked about code: do not flag code names")
     ap.add_argument("--no-learned", action="store_true", help="do not watch for the labels that confused the reader in earlier examples")
+    ap.add_argument("--labels", default="", help="the reader's standing label list (default: labels-local.txt next to scripts/)")
+    ap.add_argument("--no-labels", action="store_true", help="do not read the standing label list")
     ap.add_argument("--max-sentence", type=int, default=25, help="words in a descriptive sentence (ASD-STE100: 25)")
     ap.add_argument("--max-step", type=int, default=20, help="words in a numbered step (ASD-STE100: 20)")
     ap.add_argument("--max-para-sentences", type=int, default=6, help="sentences in a paragraph (ASD-STE100: 6)")
@@ -295,9 +346,13 @@ def main(argv=None) -> int:
             coined += examples_lib.learned_labels()
         except Exception:
             pass
+    if args.labels and not Path(args.labels).exists():
+        raise SystemExit(f"plain_check: the standing label file {args.labels} does not exist")
+    retired, define = ([], []) if args.no_labels else load_labels(args.labels or None)
+    coined += [label for label in define if label not in coined]
     flags, words = run(text, split(args.known), coined, args.allow_code,
                        max_sentence=args.max_sentence, max_paragraph=args.max_paragraph, max_words=args.max_words,
-                       max_step=args.max_step, max_para_sentences=args.max_para_sentences)
+                       max_step=args.max_step, max_para_sentences=args.max_para_sentences, retired=retired)
     name = "stdin" if args.path == "-" else args.path.rsplit("/", 1)[-1]
     if args.json:
         print(json.dumps({"file": name, "words": words, "flags": [asdict(f) for f in flags]}, indent=2))
