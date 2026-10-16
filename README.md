@@ -1,4 +1,4 @@
-# technical-writing
+# Adaptive Technical Writing Skill
 
 ![An AI teacher at a blackboard explains in simple language to a lecture hall of students who take notes.](docs/banner/banner.png)
 
